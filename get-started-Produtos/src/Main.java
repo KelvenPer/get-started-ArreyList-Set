@@ -27,7 +27,10 @@ public class Main {
                 case 3 :
                     deletarProduto();
                     break;
-                case 4:
+                case 4 :
+                    alterarProduto();
+                    break;
+                case 5:
                     System.out.println("Saindo do sistema");
                     scanner.close();
                 default:
@@ -40,8 +43,9 @@ public class Main {
         System.out.println("===== Menu =====");
         System.out.println("1 - cadastrar produto");
         System.out.println("2 - listar produtos");
-        System.out.println("3 - exluir produtos");
-        System.out.println("4 - Sair");
+        System.out.println("3 - excluir produto");
+        System.out.println("4 - alterar produto");
+        System.out.println("5 - Sair");
         System.out.println("Opção invalida");
     }
 
@@ -97,6 +101,32 @@ public class Main {
             System.out.println("Produto deletado com sucesso");
         }else{
             System.out.println("Codigo nao encontrato");
+        }
+    }
+
+    public static void alterarProduto(){
+        System.out.println("Digite o codigo do produto que deseja alterar: ");
+        int codigo = scanner.nextInt();
+        scanner.nextLine();
+
+        Produtos alterarProduto = null;
+        for(Produtos produto : produtosList){
+            if(produto.getCodigo() == codigo){
+                alterarProduto = produto;
+                break;
+            }
+        }
+        if(alterarProduto != null){
+            System.out.println("Digite o novo nome do produto");
+            String novoNome = scanner.nextLine();
+
+            produtosSet.remove(produtosList);
+            alterarProduto.setNome(novoNome);
+            produtosSet.add(alterarProduto);
+
+            System.out.println("Produto alterado com sucesso");
+        }else{
+            System.out.println("Produto com o codigo " + codigo + " nao encontrado");
         }
     }
 }
