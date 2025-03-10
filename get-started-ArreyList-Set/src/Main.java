@@ -1,131 +1,105 @@
+/*
+ * length : mostra o tamanho do arrey usa dento do sout
+ * List<Tipagem> : lista sempre deve ser tipada ou seja definir o objeto que vamos trabalho, 
+ * 
+ */
+
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 
 public class Main {
 
-    private static Set<Users> usuariosSet = new HashSet<>();
-    private static List<Users> usuariosList = new ArrayList<>();
-    private static Scanner scanner = new Scanner(System.in);
-
     public static void main(String[] args) {
 
-        while(true){
-            menu();
-            int options = scanner.nextInt();
-            scanner.nextLine();
+        /*
+         * String - names
+         * int - codigos 
+         * 
+         * depois mapiamos os nomes e os codigo usando uma nova classe pessoas e usamos o HashMap
+         * depois utilizamos o for para listar as pessoas e usamos o pessoas.put() para adicionar no [i] os codigos e os nomes
+         * depois usamos o forEach com os parametros e assim retornamos o sout
+         * contains : verifica se tem certo tipo de dados dentro da lista 
+         */
 
-            switch (options){
-                case 1 :
-                    criarUsuario();
-                    break;
-                case 2 :
-                    listaUsuarios();
-                    break;
-                case 3 :
-                    atualizarUsuario();
-                    break;
-                case 4 :
-                    deletarUsuario();
-                    break;
-                case 5 :
-                    System.out.println("Saindo do sistema.");
-                    return;
-                default:
-                    System.out.println("Opção invalida.");
-            }
-        }
+ /* 
+        List<User> usuarios = new ArrayList<>();
+        usuarios.add(new User(1, "Kelven"));
 
-    }
+        System.out.println(usuarios); // lista os usuarios conforme toString definido na classe
+        System.out.println(usuarios.isEmpty()); // verifica se a lista esta vazia
+        System.out.println(usuarios.contains(new User(1, "Kelven"))); // verifica se o novo usuario que queremos cadastra contem na lista
 
-    public static void menu(){
-        System.out.println("\n ==== Menu ====");
-        System.out.println("1 - Criar usario");
-        System.out.println("2 - Listar usuarios");
-        System.out.println("3 - Atualizar usuario");
-        System.out.println("4 - Deletar usuario");
-        System.out.println("5 - Sair");
-        System.out.println("Opção invalida");
-    }
+        usuarios.clear(); // limpa a lista existe
+        System.out.println("Limpando lista"); // mostra msg que estamos limpando a lista
 
-    public static void criarUsuario(){
-        System.out.println("Digite o nome do usuario: ");
-        String nome = scanner.next();
-        scanner.nextLine();
+        System.out.println(usuarios); // lista vazia
+         */
+        List<User> usuarios = new ArrayList<>();
+        try (Scanner scanner = new Scanner(System.in)) {
+            int opecao;
 
-        System.out.println("Digite o ID do usuario: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
+            do {
+                System.out.println("\n ======= Menu =======");
+                System.out.println("1 - Cadastrar usuario");
+                System.out.println("2 - Listar usuarios");
+                System.out.println("3 - Atualizar usuarios");
+                System.out.println("4 - Remover usuarios");
+                System.out.println("0 - Sair");
+                System.out.println("Escolha uma opção");
+                opecao = scanner.nextInt();
+                scanner.nextLine();
 
-        Users novoUsuario = new Users(id, nome);
+                switch (opecao) {
+                    case 1 -> {
+                        System.out.println("Digite o codigo: ");
+                        int code = scanner.nextInt();
+                        scanner.nextLine();
+                        System.out.println("Digite o codigo: ");
+                        String name = scanner.nextLine();
+                        User newUser = new User(code, name);
+                        usuarios.add(newUser);
+                        System.out.println("Usuario cadastrado com sucesso");
+                    }
+                    case 2 -> {
+                        System.out.println("\n Listando usuarios");
+                        usuarios.forEach(System.out::print);
+                    }
+                    case 3 -> {
+                        System.out.println("Digite o codigo do usuario que deseja mudar: ");
+                        int seachCode = scanner.nextInt();
+                        scanner.nextLine();
+                        User found = null;
+                        for (User user : usuarios) {
+                            if (user.getCode() == seachCode) {
+                                found = user;
+                                break;
+                            }
+                        }
 
-        if(usuariosSet.contains(novoUsuario)){
-            System.out.println("Ops, Usuario com ID " + id + " ja existente, Escolha outro ID.");
-        }else{
-            usuariosSet.add(novoUsuario);
-            usuariosList.add(novoUsuario);
-            System.out.println("Usuario inserido com sucesso.");
-        }
-    }
+                        if (found != null) {
+                            System.out.println("Digite o novo nome: ");
+                            String newName = scanner.nextLine();
+                            found.setName(newName);
+                            System.out.println("Usuário atualizado com sucesso!");
+                        } else {
+                            System.out.println("Usuario nao econtrado");
+                        }
+                    }
 
-    public static void listaUsuarios(){
-        if (usuariosList.isEmpty()){
-            System.out.println("Nenhum usuario encontrado");
-        }else{
-            System.out.println("\n Lista de usuarios");
-            for (Users usuario : usuariosList){
-                System.out.println("ID: " + usuario.getId() + " Nome: "+ usuario.getNome());
-            }
-        }
-    }
-
-    public static void atualizarUsuario(){
-        System.out.println("Digite o ID do usuario que desejar atualizar.");
-        int id = scanner.nextInt();
-        scanner.nextLine();
-
-        Users usuarioParaAtualizar = null;
-        for (Users usuario : usuariosList){
-            if(usuario.getId() == id){
-                usuarioParaAtualizar = usuario;
-                break;
-            }
-        }
-        if(usuarioParaAtualizar != null){
-           System.out.println("Digite o novo nome: ");
-           String novoNome = scanner.nextLine();
-
-           usuariosSet.remove(usuarioParaAtualizar);
-           usuarioParaAtualizar.setNome(novoNome);
-           usuariosSet.add(usuarioParaAtualizar);
-
-           System.out.println("Usuario atualizado com sucesso");
-
-        } else {
-            System.out.println("Usuario com ID : " + id + " nao encontrado");
-        }
-    }
-
-    public static void deletarUsuario(){
-        System.out.println("Digite o ID do usuario que deseja deletar");
-        int id = scanner.nextInt();
-        scanner.nextLine();
-
-        Users usuarioParaDeletar = null;
-        for(Users usuarios : usuariosList){
-            if(usuarios.getId() == id) {
-                usuarioParaDeletar = usuarios;
-                break;
-            }
-        }
-        if (usuarioParaDeletar != null){
-            usuariosSet.remove(usuarioParaDeletar);
-            usuariosList.remove(usuarioParaDeletar);
-            System.out.println("Usuario deletado com sucesso");
-        }else {
-            System.out.println("Nenhum usuario com ID " + id + " encontrado.");
+                    case 4 -> {
+                        System.out.println("Digite o codigo que deseja remover: ");
+                        int removerCode = scanner.nextInt();
+                        scanner.nextLine();
+                        usuarios.removeIf(users -> users.getCode() == removerCode);
+                        System.out.println("Usuario removido com sucesso");
+                    }
+                    case 0 ->
+                        System.out.println("Saindo...");
+                    default ->
+                        System.out.println("Opção invalida");
+                }
+            } while (opecao != 0);
         }
     }
 }
