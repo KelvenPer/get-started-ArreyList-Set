@@ -6,7 +6,6 @@
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Main {
 
@@ -35,6 +34,8 @@ public class Main {
 
         System.out.println(usuarios); // lista vazia
          */
+
+ /* 
         List<User> usuarios = new ArrayList<>();
         try (Scanner scanner = new Scanner(System.in)) {
             int opecao;
@@ -101,5 +102,14 @@ public class Main {
                 }
             } while (opecao != 0);
         }
+    }
+}
+
+         */
+        List<Produtos> produto = new ArrayList<>();
+        produto.add(new Produtos("Acucar", 15.99));
+
+        System.out.println(produto);
+
     }
 }
